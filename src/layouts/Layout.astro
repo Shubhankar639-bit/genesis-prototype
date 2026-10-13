@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'The Environmental Architecture of Generative AI',
+  description = 'A technical report on the carbon emissions, water consumption, and resource-management choices behind generative AI training and inference.',
+} = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How much water does training an LLM consume?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Training water demand is not a single fixed number: a 2023 modeled estimate for GPT-3 training in U.S. data centers is about 700,000 liters of freshwater, with results sensitive to location, season, cooling design, and electricity supply. Treat it as an estimate, not a universal measurement.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the carbon footprint of AI model training?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'An AI model’s training footprint depends on accelerator-hours, data-center efficiency, and the carbon intensity of electricity; a frequently cited estimate for GPT-3 training is roughly 500 metric tons of CO2e. This is a modeled, project-specific estimate, not a benchmark for every model or a complete lifecycle inventory.',
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f8fafc" />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased">
+    <slot />
+  </body>
+</html>

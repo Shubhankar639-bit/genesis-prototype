@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const waterAnswer = 'Training water demand is not a single fixed number: a 2023 modeled estimate for GPT-3 training in U.S. data centers is about 700,000 liters of freshwater, with results sensitive to location, season, cooling design, and electricity supply. Treat it as an estimate, not a universal measurement.';
+const carbonAnswer = 'An AI model’s training footprint depends on accelerator-hours, data-center efficiency, and the carbon intensity of electricity; a frequently cited estimate for GPT-3 training is roughly 500 metric tons of CO2e. This is a modeled, project-specific estimate, not a benchmark for every model or a complete lifecycle inventory.';
+---
+
+<Layout
+  title="The Environmental Architecture of Generative AI | Technical Report"
+  description="A sourced technical report on generative AI training’s water and carbon footprints, data-center cooling, hardware demand, and responsible resource accounting."
+>
+  <main class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-12">
+    <header class="border-b border-slate-200 pb-12 pt-4 sm:pb-16">
+      <p class="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-800">
+        <span aria-hidden="true" class="h-2 w-2 rounded-full bg-emerald-500"></span>
+        Technical briefing <span class="text-slate-300">/</span> Resource accounting
+      </p>
+      <p class="mb-4 text-sm font-semibold tracking-wide text-slate-500">AI INFRASTRUCTURE · ENVIRONMENTAL SYSTEMS</p>
+      <h1 class="max-w-5xl text-4xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+        The Environmental Architecture of Generative AI: Carbon and Water Resource Management
+      </h1>
+      <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-600">
+        A practical, evidence-led examination of the resources behind model training—and why location, electricity, cooling, and measurement boundaries matter as much as model size.
+      </p>
+      <p class="mt-8 text-sm text-slate-500">A technical explainer <span class="px-2 text-slate-300">·</span> Static, citation-ready edition</p>
+    </header>
+
+    <article class="grid gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16 lg:py-16">
+      <section aria-labelledby="water-heading" class="min-w-0 scroll-mt-8">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">01 / Water</p>
+        <h2 id="water-heading" class="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">How much water does training an LLM consume?</h2>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{waterAnswer}</p>
+
+        <p class="mt-6 leading-7 text-slate-600">
+          The estimate is associated with GPT-3, a specific model and assumed U.S. data-center context—not a universal bill for training any large language model. Direct cooling water and indirect water used in electricity generation are different accounting categories; reporting should identify which are included. The paper also estimates that serving prompts can consume water, but per-request values vary with workload and location.
+        </p>
+
+        <aside class="my-8 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 sm:p-7" aria-label="Key water estimate">
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-800">Illustrative training estimate</p>
+          <p class="mt-2 text-3xl font-semibold tracking-tight text-slate-950">≈ 700,000 <span class="text-lg font-medium text-slate-600">liters</span></p>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Modeled freshwater consumption for GPT-3 training under the study’s stated scenario. It is not a measured value for all models, regions, or facilities.</p>
+        </aside>
+
+        <div class="my-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <table class="w-full border-collapse text-left text-sm">
+            <caption class="border-b border-slate-200 px-5 py-4 text-left text-base font-semibold text-slate-950">
+              Illustrative resource use by digital task
+              <span class="mt-1 block text-xs font-normal leading-5 text-slate-500">Indicative estimates only; workload, hardware, cooling, and electricity mix change the result.</span>
+            </caption>
+            <thead class="bg-slate-100 text-xs uppercase tracking-wide text-slate-600">
+              <tr>
+                <th scope="col" class="px-5 py-3 font-semibold">Task</th>
+                <th scope="col" class="px-5 py-3 font-semibold">Energy (kWh)</th>
+                <th scope="col" class="px-5 py-3 font-semibold">Water (ml)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-700">
+              <tr>
+                <th scope="row" class="px-5 py-4 font-medium text-slate-900">Standard search</th>
+                <td class="px-5 py-4">≈ 0.0003 / search <sup><a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-search" aria-label="See search energy source">[1]</a></sup></td>
+                <td class="px-5 py-4">Not consistently reported</td>
+              </tr>
+              <tr class="bg-slate-50/70">
+                <th scope="row" class="px-5 py-4 font-medium text-slate-900">Generative text</th>
+                <td class="px-5 py-4">≈ 0.0029 / prompt-response <sup><a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-text" aria-label="See generative text energy source">[2]</a></sup></td>
+                <td class="px-5 py-4">≈ 10–25 / interaction, modeled range <sup><a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-water" aria-label="See water estimate source">[3]</a></sup></td>
+              </tr>
+              <tr>
+                <th scope="row" class="px-5 py-4 font-medium text-slate-900">Image generation</th>
+                <td class="px-5 py-4">≈ 0.0029 / image, benchmark average <sup><a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-image" aria-label="See image generation energy source">[4]</a></sup></td>
+                <td class="px-5 py-4">No robust universal per-image estimate</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="-mt-6 text-xs leading-5 text-slate-500">
+          Table basis: task-level values are drawn from different studies and are not a controlled head-to-head test. Water is particularly site-dependent; the generative-text range is a coarse conversion of a published estimate of roughly 500 ml for 20–50 GPT-3 responses, not a metered value for each interaction. Search’s energy figure is an older, commonly cited estimate.
+        </p>
+
+        <blockquote class="my-10 border-l-2 border-emerald-500 bg-white px-6 py-5 text-lg leading-8 text-slate-700 shadow-sm sm:px-8">
+          <p>“The reported 700,000-liter figure is a modeled estimate for a particular training scenario; water demand changes with place, time, cooling technology, and the electricity source.”</p>
+          <footer class="mt-4 text-sm font-medium leading-6 text-slate-500">Editorial synthesis, not a verbatim quotation · Li et al., UC Riverside and UT Arlington researchers, 2023 <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-water">[3]</a></footer>
+        </blockquote>
+      </section>
+
+      <aside class="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-8" aria-label="Report contents">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">In this report</p>
+        <ol class="mt-4 space-y-3 text-sm leading-6">
+          <li><a class="text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-emerald-800" href="#water-heading">Water use in training</a></li>
+          <li><a class="text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-emerald-800" href="#carbon-heading">Training emissions</a></li>
+          <li><a class="text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-emerald-800" href="#cooling-heading">Cooling and reuse</a></li>
+          <li><a class="text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-emerald-800" href="#sdg-heading">Hardware and SDG 6.6</a></li>
+          <li><a class="text-slate-700 underline decoration-slate-300 underline-offset-4 hover:text-emerald-800" href="#sources-heading">Sources and method</a></li>
+        </ol>
+        <p class="mt-6 border-t border-slate-100 pt-5 text-xs leading-5 text-slate-500">Interpret point estimates alongside their boundary, geography, and date. Estimates are not interchangeable measurements.</p>
+      </aside>
+
+      <section aria-labelledby="carbon-heading" class="min-w-0 scroll-mt-8 lg:col-start-1">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">02 / Carbon</p>
+        <h2 id="carbon-heading" class="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">What is the carbon footprint of AI model training?</h2>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-700">{carbonAnswer}</p>
+        <p class="mt-6 leading-7 text-slate-600">
+          A frequently repeated GPT-3 estimate is around <strong class="font-semibold text-slate-900">500 metric tons CO2e</strong>; estimates differ according to assumptions about accelerator utilization, hardware, data-center overhead, and grid intensity. A credible inventory states whether it covers training alone or also experiments, embodied hardware emissions, and deployment. Carbon intensity can also change by hour, so a location- and time-aware electricity match improves accounting.
+        </p>
+        <p class="mt-5 leading-7 text-slate-600">
+          The most actionable comparison is not “AI versus no AI” in the abstract. Report energy per completed task, model quality, and the counterfactual service being replaced; then disclose the measurement method and uncertainty. Efficiency gains can lower per-task energy while total demand rises if usage expands—a rebound effect that makes absolute resource reporting important.
+        </p>
+
+        <blockquote class="my-10 border-l-2 border-sky-500 bg-white px-6 py-5 text-lg leading-8 text-slate-700 shadow-sm sm:px-8">
+          <p>“A training-emissions estimate is only interpretable when the model, hardware, electricity mix, and system boundary are disclosed; one number should not be generalized to all AI training.”</p>
+          <footer class="mt-4 text-sm font-medium leading-6 text-slate-500">Editorial synthesis, not a verbatim quotation · Patterson et al., analysis of machine-learning energy and carbon reporting, 2021 <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="#source-carbon">[5]</a></footer>
+        </blockquote>
+
+        <section aria-labelledby="cooling-heading" class="mt-14 border-t border-slate-200 pt-10 scroll-mt-8">
+          <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">03 / Facility operations</p>
+          <h3 id="cooling-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">Evaporative Cooling and Greywater Recycling Methods</h3>
+          <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-700">
+            Evaporative cooling can reduce data-center electricity use in suitable climates, but it consumes water through evaporation; its net benefit therefore depends on local water stress and the energy source it displaces. Operators can reduce freshwater exposure with reclaimed-water supply, closed-loop systems, leak controls, and published site-level water-use effectiveness metrics.
+          </p>
+          <p class="mt-5 leading-7 text-slate-600">
+            “Greywater” generally means lightly used water from sources such as showers or sinks; reclaimed-water programs may also treat municipal wastewater. Both require fit-for-purpose treatment, safeguards against cross-connection, and reliable supply. Dry or liquid cooling designs can shift the trade-off toward electricity, equipment, or heat-rejection constraints rather than eliminating environmental impacts.
+          </p>
+        </section>
+
+        <section aria-labelledby="sdg-heading" class="mt-14 border-t border-slate-200 pt-10 scroll-mt-8">
+          <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-emerald-700">04 / Infrastructure and policy</p>
+          <h3 id="sdg-heading" class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">AI Hardware Demands and Sustainable Development Goal 6 Target 6.6</h3>
+          <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-700">
+            AI accelerators, memory, networking, and data-center construction add resource demands beyond operational electricity and cooling water. SDG 6.6 calls for protecting and restoring water-related ecosystems; responsible AI infrastructure can support that aim by assessing watershed stress, limiting freshwater withdrawals, monitoring discharge, and publishing facility-level impacts across the hardware lifecycle.
+          </p>
+          <p class="mt-5 leading-7 text-slate-600">
+            Hardware procurement should consider manufacturing impacts and equipment lifetime, while siting decisions should use basin-level water-risk data rather than national averages alone. Operators can report withdrawal and consumption separately, identify potable versus reclaimed sources, and disclose whether electricity-related water is included. These practices make trade-offs visible without implying that efficiency alone guarantees lower total impact.
+          </p>
+        </section>
+      </section>
+    </article>
+
+    <footer class="border-t border-slate-200 py-12">
+      <h2 id="sources-heading" class="text-2xl font-semibold tracking-tight text-slate-950">Sources and method</h2>
+      <p class="mt-4 max-w-3xl leading-7 text-slate-600">
+        The figures below are reported estimates or benchmark results, not universal constants. Values come from different study methods and system boundaries; the comparison table is illustrative, not a like-for-like experiment. Check each source’s assumptions before reuse, and avoid treating modeled water or carbon values as direct measurements for a particular facility.
+      </p>
+      <ol class="mt-7 max-w-4xl space-y-4 text-sm leading-6 text-slate-600">
+        <li id="source-search"><span class="font-semibold text-slate-900">[1] Search energy estimate.</span> Google, “Powering a Google search” (2009), commonly cited estimate of 0.3 Wh per search. <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://googleblog.blogspot.com/2009/01/powering-google-search.html" rel="noopener noreferrer">Source</a>.</li>
+        <li id="source-text"><span class="font-semibold text-slate-900">[2] Text-generation energy context.</span> de Vries, “The growing energy footprint of artificial intelligence,” <em>Joule</em> (2023); the 2.9 Wh figure is a rough estimate, not a universal measurement of every prompt. <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://doi.org/10.1016/j.joule.2023.09.004" rel="noopener noreferrer">DOI</a>.</li>
+        <li id="source-water"><span class="font-semibold text-slate-900">[3] Water estimates.</span> Li et al., “Making AI Less ‘Thirsty’: Uncovering and Addressing the Secret Water Footprint of AI Models,” <em>arXiv</em> (2023). Modeled GPT-3 training and inference estimates; results depend on location and operating conditions. <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://arxiv.org/abs/2304.03271" rel="noopener noreferrer">arXiv:2304.03271</a>.</li>
+        <li id="source-image"><span class="font-semibold text-slate-900">[4] Image-generation benchmark.</span> Luccioni, Jernite, and Strubell, “Power Hungry Processing: Watts Driving the Cost of AI Deployment?” <em>ACM FAccT</em> (2024). The table converts a reported benchmark average of about 2.9 kWh per 1,000 images to a per-image figure. <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://doi.org/10.1145/3630106.3658542" rel="noopener noreferrer">DOI</a>.</li>
+        <li id="source-carbon"><span class="font-semibold text-slate-900">[5] Carbon-accounting context.</span> Patterson et al., “Carbon Emissions and Large Neural Network Training,” <em>arXiv</em> (2021). <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://arxiv.org/abs/2104.10350" rel="noopener noreferrer">arXiv:2104.10350</a>.</li>
+        <li><span class="font-semibold text-slate-900">[6] SDG 6.6.</span> United Nations, Sustainable Development Goal 6, target 6.6. <a class="text-emerald-800 underline decoration-emerald-300 underline-offset-2" href="https://sdgs.un.org/goals/goal6" rel="noopener noreferrer">Goal 6 targets</a>.</li>
+      </ol>
+      <p class="mt-10 text-xs leading-5 text-slate-500">Static technical report. No client-side scripts, trackers, or interactive runtime are required.</p>
+    </footer>
+  </main>
+</Layout>
